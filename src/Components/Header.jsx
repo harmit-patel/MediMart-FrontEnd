@@ -1,4 +1,5 @@
 import { IoMdNotifications } from "react-icons/io";
+<<<<<<< HEAD
 import { motion } from "framer-motion";
 import titleimg from "../assets/img/titleimg.gif"
 
@@ -30,3 +31,14 @@ export default function Header() {
     </header>
   );
 }
+=======
+
+export default function Header() {
+  return (
+    <header className="flex justify-between items-center mb-6 sticky top-0 bg-gray-100 z-10">
+      <h1 className="text-3xl font-bold text-gray-700">Dashboard</h1>
+      <IoMdNotifications className="text-2xl text-gray-600 cursor-pointer" />
+    </header>
+  );
+}
+>>>>>>> c42813a (Updated UI for dashboard)

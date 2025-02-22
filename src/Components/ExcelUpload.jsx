@@ -26,7 +26,6 @@ export default function ExcelUpload() {
   const onFileUpload = async (acceptedFiles) => {
     const file = acceptedFiles[0];
     const reader = new FileReader();
-
     reader.onload = (e) => {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: "array" });
