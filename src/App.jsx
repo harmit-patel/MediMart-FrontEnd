@@ -9,6 +9,7 @@ function App() {
   return (
     <Router>
       <Routes>
+      <Route path="/" element={<AuthPage />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/addtoinventory" element={<AddInventoryForm />} />

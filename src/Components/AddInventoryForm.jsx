@@ -2,94 +2,87 @@ import { useState } from "react";
 
 export default function AddInventoryForm({ onClose }) {
   const [formData, setFormData] = useState({
-    itemType: "",
-    drugName: "",
-    drugTypes: "",
-    brand: "",
-    lotNumber: "",
-    expirationDate: "",
-    minQuantity: "",
-    quantity: "",
-    unit: "",
-    location: "",
-    purchaseOrDonated: "",
-    additionalInfo: "",
+    name: "",
+    brandName: "",
+    dosage: "",
+    unitPrice: "",
+    stock: "",
+    status: "Available",
   });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted", formData);
+    // Handle form submission (e.g., add to medicines list)
     onClose();
   };
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Add Inventory</h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Item Type</label>
-            <input name="itemType" placeholder="Item Type" value={formData.itemType} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Drug Name</label>
-            <input name="drugName" placeholder="Drug Name" value={formData.drugName} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Drug Type(s)</label>
-            <input name="drugTypes" placeholder="Drug Type(s)" value={formData.drugTypes} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Brand</label>
-            <input name="brand" placeholder="Brand" value={formData.brand} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Lot Number</label>
-            <input name="lotNumber" placeholder="Lot Number" value={formData.lotNumber} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Expiration Date</label>
-            <input type="date" name="expirationDate" value={formData.expirationDate} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Minimum Quantity</label>
-            <input name="minQuantity" placeholder="Minimum Quantity" value={formData.minQuantity} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Quantity</label>
-            <input name="quantity" placeholder="Quantity" value={formData.quantity} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Unit</label>
-            <input name="unit" placeholder="Unit" value={formData.unit} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Location</label>
-            <input name="location" placeholder="Location" value={formData.location} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Purchased or Donated?</label>
-            <select name="purchaseOrDonated" value={formData.purchaseOrDonated} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
-              <option value="">Select</option>
-              <option value="Purchased">Purchased</option>
-              <option value="Donated">Donated</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">Additional Info</label>
-          <textarea name="additionalInfo" placeholder="Additional Info" value={formData.additionalInfo} onChange={handleChange} className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" rows="4"></textarea>
+    <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl">
+      <h2 className="text-xl font-bold text-gray-700 mb-4">Add to Inventory</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input
+            type="text"
+            placeholder="Name"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            className="p-2 border border-gray-300 rounded-lg"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Brand Name"
+            value={formData.brandName}
+            onChange={(e) => setFormData({ ...formData, brandName: e.target.value })}
+            className="p-2 border border-gray-300 rounded-lg"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Dosage"
+            value={formData.dosage}
+            onChange={(e) => setFormData({ ...formData, dosage: e.target.value })}
+            className="p-2 border border-gray-300 rounded-lg"
+            required
+          />
+          <input
+            type="number"
+            placeholder="Unit Price"
+            value={formData.unitPrice}
+            onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value })}
+            className="p-2 border border-gray-300 rounded-lg"
+            required
+          />
+          <input
+            type="number"
+            placeholder="Stock"
+            value={formData.stock}
+            onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
+            className="p-2 border border-gray-300 rounded-lg"
+            required
+          />
+          <select
+            value={formData.status}
+            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+            className="p-2 border border-gray-300 rounded-lg"
+          >
+            <option value="Available">Available</option>
+            <option value="Out of Stock">Out of Stock</option>
+          </select>
         </div>
         <div className="flex justify-end space-x-4">
-          <button type="button" onClick={onClose} className="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg"
+          >
             Cancel
           </button>
-          <button type="submit" className="bg-purple-700 text-white px-6 py-2 rounded-md hover:bg-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500">
-            Add Item
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+          >
+            Add Medicine
           </button>
         </div>
       </form>
