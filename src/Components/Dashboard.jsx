@@ -68,11 +68,15 @@ export default function Dashboard() {
           searchQuery={searchQuery}
           filterStatus={filterStatus}
           handleIncreaseStock={handleIncreaseStock}
-          handleDecreaseStock={handleDecreaseStock}
+          handleDecreaseStock={handleDecreaseStock} 
           handleDeleteMedicine={handleDeleteMedicine}
         />
       </div>
-      {showForm && <AddInventoryForm onClose={() => setShowForm(false)} />}
+      {showForm && (
+  <div className="p-9"> {/* Add padding here */}
+    <AddInventoryForm onClose={() => setShowForm(false)} />
+  </div>
+)}
     </div>
   );
 }
