@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import formimg from "../assets/img/form1.gif";
 import { FaTimes } from "react-icons/fa";
 
-const InventoryForm = ({ onClose }) => {
+const AddInventoryForm = ({ onClose }) => {
     const [formData, setFormData] = useState({
         quantity: "",
         reorderLevel: "",
@@ -220,4 +220,4 @@ const InventoryForm = ({ onClose }) => {
     );
 };
 
-export default InventoryForm;
+export default AddInventoryForm;

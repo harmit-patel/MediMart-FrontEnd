@@ -16,7 +16,11 @@ export default function Sidebar({ setShowForm }) {
           <FaCalendarAlt /> <span>Add To Inventory</span>
         </a>
         <a href="#" className="flex items-center space-x-2 p-3 rounded hover:bg-blue-700">
+<<<<<<< HEAD
           <FaUser /> <span>Profile</span>
+=======
+          <FaUser /> <span>Patient</span>
+>>>>>>> 0c10c84 (Updated UI for Profile)
         </a>
       </nav>
     </aside>

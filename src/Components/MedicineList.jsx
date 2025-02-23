@@ -2,10 +2,9 @@ import MedicineCard from "./MedicineCard";
 
 export default function MedicineList({ medicines, searchQuery, filterStatus, ...rest }) {
   const filteredMedicines = medicines.filter((med) => {
-    const matchesSearch = med.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          med.brandName.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesFilter = filterStatus === "All" || med.status === filterStatus;
-    return matchesSearch && matchesFilter;
+    const matchesSearch = med.medicine_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          med.brand_name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesSearch;
   });
 
   return (

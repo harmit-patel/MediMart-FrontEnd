@@ -1,8 +1,8 @@
 import { FaCalendarAlt, FaExclamationTriangle, FaUserMd } from "react-icons/fa";
 
 export default function OverviewCards({ medicines }) {
-  const totalStock = medicines.reduce((sum, med) => sum + med.stock, 0);
-  const lowStockMedicines = medicines.filter((med) => med.stock > 0 && med.stock <= 10).length;
+  const totalStock = medicines.reduce((sum, med) => sum + med.quantity, 0);
+  const lowStockMedicines = medicines.filter((med) => med.quantity > 0 && med.quantity <= 10).length;
 
   return (
     <div className="grid grid-cols-3 gap-6 mb-6">
