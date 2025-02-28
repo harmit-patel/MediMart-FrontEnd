@@ -4,9 +4,9 @@ import axios from "axios";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import { format, startOfYear, endOfYear } from "date-fns";
-import Sidebar from "./Sidebar";
+import { FaTimes } from "react-icons/fa";
 
-const Profile = () => {
+const Profile = ({onClose}) => {
     const [profile, setProfile] = useState(null);
     const [error, setError] = useState("");
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -88,9 +88,12 @@ const Profile = () => {
 
     return (
         <div className="flex min-h-screen bg-slate-50">
-        {/* Sidebar */}
-        <Sidebar />
-        <div className="flex-1 flex justify-center items-center p-6">
+            <button
+                                onClick={onClose}
+                                className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 transition-colors"
+                            >
+                                <FaTimes className="text-2xl" />
+                            </button>
             <div className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
                 {/* Header Section */}
                 <div className="relative p-6">
@@ -183,7 +186,6 @@ const Profile = () => {
                         </button>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     );

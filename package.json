@@ -23,10 +23,8 @@
     "react-dropzone": "^14.3.5",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.2.0",
-<<<<<<< HEAD
+    "react-toastify": "^11.0.3",
     "recharts": "^2.15.1",
-=======
->>>>>>> c42813a (Updated UI for dashboard)
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

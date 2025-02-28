@@ -6,19 +6,19 @@ import ExcelUpload from "./ExcelUpload";
 import SearchFilter from "./SearchFilter";
 import MedicineList from "./MedicineList";
 import AddInventoryForm from "./AddInventoryForm";
+import Profile from "./Profile";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 export default function Dashboard() {
   const [showForm, setShowForm] = useState(false);
+  const [showProfile , setShowProfile] = useState(false)
   const storedEmail = localStorage.getItem("email");
   const [editDetail , setEditDetail] = useState([])
-  const [medicines, setMedicines] = useState([
-    { id: 1, medicine_name: "Paracetamol", brand_name: "Brand A", dosage: "500mg", unitPrice: 10, quantity: 50},
-    { id: 2, medicine_name: "Ibuprofen", brand_name: "Brand B", dosage: "400mg", unitPrice: 15, quantity: 0 },
-    { id: 3, medicine_name: "Amoxicillin", brand_name: "Brand C", dosage: "250mg", unitPrice: 20, quantity: 20 },
-  ]);
+  const [medicines, setMedicines] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
-
   useEffect(() => {
     const fetchData = async () => {
       const getEmail = localStorage.getItem('email')
@@ -39,6 +39,7 @@ export default function Dashboard() {
         }
   
         const data = await response.json(); // Parse JSON response
+        console.log(data)
         setMedicines(data); // Update state with fetched medicines
         const editData = data.map((d) => ({
           medicine: { id: d.id },
@@ -84,7 +85,7 @@ export default function Dashboard() {
     const medicine = medicines.find((med) => med.id === id);
     if (!medicine) return; // Exit if the medicine isn't found
     
-    const updatedQuantity = medicine.quantity - 1;
+    const updatedQuantity = medicine.quantity > 0 ? medicine.quantity - 1 : medicine.quantity;
   
     // Update edit detail state
     setEditDetail((prev) =>
@@ -126,18 +127,18 @@ export default function Dashboard() {
             throw new Error("Failed to delete medicine");
         }
 
-        console.log("Medicine deleted successfully");
         // Remove the medicine from the state after successful deletion
         setMedicines((prev) => prev.filter((med) => med.id !== id));
         setEditDetail((prev) => prev.filter((detail) => detail.medicine.id !== id));
+        toast.success("Medicine deleted successfully");
 
     } catch (error) {
-        console.error("Error deleting medicine:", error);
+        toast.error("Error deleting medicine");
     }
   };
 
   const saveDetail = async (id) => {
-
+      console.log(editDetail)
     const medicine = medicines.find((med) => med.id === id);
     if (!medicine) {
         console.error("Medicine not found!");
@@ -167,10 +168,10 @@ export default function Dashboard() {
             throw new Error("Failed to update quantity");
         }
 
-        console.log("Quantity updated successfully");
-
+        toast.success("Quantity updated successfully");
     } catch (error) {
-        console.error("Error updating quantity!", error);
+        toast.error("Error updating quantity!");
+        console.error(error);
         // Optionally, revert state if update fails
         setMedicines((prev) =>
             prev.map((med) =>
@@ -183,10 +184,10 @@ export default function Dashboard() {
 
   return (
     <div className="flex h-screen bg-gradient-to-r from-blue-500 to-indigo-600 relative overflow-hidden">
-      <Sidebar setShowForm={setShowForm} />
+      <Sidebar setShowForm={setShowForm} setShowProfile={setShowProfile}/>
       <div className="flex-1 p-6 bg-gray-100 z-10 overflow-y-auto">
         <Header />
-        <OverviewCards medicines={medicines} />
+        <OverviewCards medicines={medicines}/>
         <ExcelUpload />
         <SearchFilter
           searchQuery={searchQuery}
@@ -203,12 +204,18 @@ export default function Dashboard() {
           handleDeleteMedicine={handleDeleteMedicine}
           saveDetail={saveDetail}
         />
+        <ToastContainer />
       </div>
       {showForm && (
   <div className="p-9"> {/* Add padding here */}
     <AddInventoryForm onClose={() => setShowForm(false)} />
   </div>
 )}
+  {showProfile && (
+    <div className="p-9"> {/* Add padding here */}
+    <Profile onClose={() => setShowProfile(false)} />
+  </div>
+  )}
     </div>
   );
 }

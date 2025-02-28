@@ -3,20 +3,22 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import formimg from "../assets/img/form1.gif";
 import { FaTimes } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddInventoryForm = ({ onClose }) => {
     const [formData, setFormData] = useState({
         quantity: "",
         reorderLevel: "",
+        manufacturingDate: "",
+        expDate: "",
         medicine: {
             name: "",
-            manufacturingDate: "",
-            expDate: "",
             dosage: "",
-            form: "Tablet",
-            unitPrice: "",
+            form: "TABLET",
             brandName: "",
         },
+        unitPrice: 0.0,
         email: "",
     });
 
@@ -29,25 +31,47 @@ const AddInventoryForm = ({ onClose }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+    
+        let newValue = value;
+        // Ensure `form` field is always a valid enum value
+        if (name === "form" && value === "") return; 
+        if (name === "unitPrice") {
+            newValue = value === "" ? "" : parseFloat(value); // Convert to number
+        }
         if (name in formData.medicine) {
             setFormData({
                 ...formData,
-                medicine: { ...formData.medicine, [name]: value },
+                medicine: { ...formData.medicine, [name]: newValue },
             });
         } else {
             setFormData({ ...formData, [name]: value });
         }
     };
+    
+
+    const isValidDate = (year, month, day) => {
+        const date = new Date(year, month - 1, day);
+        return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+    };
 
     const handleSubmit = async (e) => {
+        const [myear, mmonth, mday] = formData.manufacturingDate.split("-").map(Number);
+        if (!isValidDate(myear, mmonth, mday)) {
+            toast.error("Invalid Manufacturing date! Please select a valid date.");
+            return;
+        }
+        const [year, month, day] = formData.expDate.split("-").map(Number);
+        if (!isValidDate(year, month, day)) {
+            toast.error("Invalid Expiry date! Please select a valid date.");
+            return;
+        }
+        console.log(formData)
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:8080/api/inventory/add", formData);
-            alert("Inventory added successfully!");
-            console.log(response.data);
+            const response = await axios.post("http://localhost:8080/inventory/add", formData);
+            toast.success("Inventory added successfully!");
         } catch (error) {
-            console.error("Error adding inventory", error);
-            alert("Failed to add inventory.");
+            toast.error("Failed to add inventory");
         }
     };
 
@@ -174,16 +198,17 @@ const AddInventoryForm = ({ onClose }) => {
                     <label className="block">
                         Form 💉
                         <select
-                            name="form"
-                            value={formData.medicine.form}
-                            onChange={handleChange}
-                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        >
-                            <option value="Tablet">Tablet</option>
-                            <option value="Capsule">Capsule</option>
-                            <option value="Injection">Injection</option>
-                        </select>
+    name="form"
+    value={formData.medicine.form}
+    onChange={handleChange}
+    className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    required
+>
+    <option value="TABLET">TABLET</option>
+    <option value="CAPSULE">CAPSULE</option>
+    <option value="INJECTION">INJECTION</option>
+</select>
+
                     </label>
                     <label className="block">
                         Unit Price 💵
@@ -216,6 +241,7 @@ const AddInventoryForm = ({ onClose }) => {
                     </button>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 };
